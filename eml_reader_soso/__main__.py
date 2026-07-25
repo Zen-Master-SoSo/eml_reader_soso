@@ -381,7 +381,7 @@ table.eml-soso-header-table td.strong {
 			html.append('</tbody></table><table class="eml-soso-header-table"><tbody>')
 			html.append(header_row('Attachments',
 				header_attachments(self.message.Attachments)))
-		html.append('</tbody></table><pre> </pre>')
+		html.append('</tbody></table><p>&nbsp;</p>')
 		self.print_document = self.browser.document().clone()
 		cursor = QTextCursor(self.print_document)
 		cursor.movePosition(QTextCursor.Start)
