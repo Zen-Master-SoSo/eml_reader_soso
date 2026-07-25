@@ -23,7 +23,7 @@ A relatively lightweight graphical .eml file reader based on PyQt
 from xdg_soso import XDGSetup, XDGMime
 
 
-__version__ = "0.0.0"
+__version__ = "1.0.0"
 
 
 class EmlReaderSetup(XDGSetup):
