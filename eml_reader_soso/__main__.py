@@ -88,9 +88,11 @@ class MainWindow(QMainWindow):
 		self.attachments = None
 		self.filepaths = None
 		self.last_filepath_index = None
+		app_path = Path(__file__).parent
 		with ShutUpQT():
-			uic.loadUi(str(Path(__file__).parent / 'main_window.ui'), self)
-		self.setWindowIcon(QIcon.fromTheme('mail-mark-read'))
+			uic.loadUi(str(app_path / 'main_window.ui'), self)
+		icon_path = app_path / 'res' / 'application-icon.svg'
+		self.setWindowIcon(QIcon(str(icon_path)))
 		shortcut = QShortcut(QKeySequence('ESC'), self)
 		shortcut.activated.connect(self.close)
 		for frame in [ self.frm_to, self.frm_from, self.frm_cc ]:
