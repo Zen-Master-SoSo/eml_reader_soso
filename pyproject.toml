@@ -6,6 +6,7 @@ license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"]
 dynamic = ["version", "description"]
 dependencies = [
+	"lxml",
 	"PyQt5",
 	"emlmailreader",
 	"soso_qt_extras >= 1.9.0",

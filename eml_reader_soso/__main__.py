@@ -490,7 +490,7 @@ class AttachmentWidget(QWidget):
 
 	@pyqtSlot()
 	def _slot_save(self):
-		self.sig_save_request.emit(self)
+		self.sig_save_request.emit(self)	# TODO: You can use "sender()" instead
 
 	@pyqtSlot()
 	def _slot_preview(self):
