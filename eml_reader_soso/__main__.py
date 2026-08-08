@@ -211,38 +211,41 @@ QImage {
 			self.frm_attachments.layout().append(widget)
 		self.frm_attachments.layout().reflow(width = self.frm_attachments.width())
 		self.frm_attachments.setVisible(SHOW_ATTACHMENTS_BY_DEFAULT and has_attachments)
+
 		doc = fromstring(self.message.Body)
-		try:
-			for style in doc.head.findall('style'):
+		if doc.find('.//p') is None and doc.find('.//div') is None:
+			self.browser.setPlainText(self.message.Body)
+
+		else:
+			for style in doc.iter(tag = 'style'):
 				style.drop_tree()
-		except IndexError:
-			pass
-		for img in doc.iter(tag = 'img'):
-			src = img.get('src')
-			width = img.get('width')
-			height = img.get('height')
-			if width and height:
-				width = int(width)
-				height = int(height)
-				ratio = height / width
-				width = min(MAX_IMAGE_WIDTH, width)
-				height = int(width * ratio)
-			else:
-				ratio = None
-			img.clear()
-			if src.startswith('cid:'):
-				if att := self._attachment_by_cid(src[4:]):
-					mime_type = att.ContentType.MediaType
-					img.set('src', f'data:{mime_type};base64,' + \
-						b64encode(att.Contents).decode())
+			for img in doc.iter(tag = 'img'):
+				src = img.get('src')
+				width = img.get('width')
+				height = img.get('height')
+				if width and height:
+					width = int(width)
+					height = int(height)
+					ratio = height / width
+					width = min(MAX_IMAGE_WIDTH, width)
+					height = int(width * ratio)
+				else:
+					ratio = None
+				img.clear()
+				if src.startswith('cid:'):
+					if att := self._attachment_by_cid(src[4:]):
+						mime_type = att.ContentType.MediaType
+						img.set('src', f'data:{mime_type};base64,' + \
+							b64encode(att.Contents).decode())
+					else:
+						img.set('src', src)
 				else:
 					img.set('src', src)
-			else:
-				img.set('src', src)
-			if ratio:
-				img.set('width', str(width))
-				img.set('height', str(height))
-		self.browser.setHtml(tostring(doc, encoding = 'unicode'))
+				if ratio:
+					img.set('width', str(width))
+					img.set('height', str(height))
+			self.browser.setHtml(tostring(doc, encoding = 'unicode'))
+
 		for action in [
 			self.action_select_all,
 			self.action_copy,
