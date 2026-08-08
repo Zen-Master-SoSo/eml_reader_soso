@@ -24,7 +24,7 @@ from pathlib import Path
 from xdg_soso import XDGSetup, XDGMime
 
 
-__version__ = "1.1.3"
+__version__ = "1.1.4"
 
 
 class EmlReaderSetup(XDGSetup):
