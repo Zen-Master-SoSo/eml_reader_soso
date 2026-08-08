@@ -224,15 +224,19 @@ QImage {
 				width = img.get('width')
 				height = img.get('height')
 				if width and height:
-					width = int(width)
-					height = int(height)
-					ratio = height / width
-					width = min(MAX_IMAGE_WIDTH, width)
-					height = int(width * ratio)
+					try:
+						width = int(width)
+						height = int(height)
+					except ValueError:
+						ratio = None
+					else:
+						ratio = height / width
+						width = min(MAX_IMAGE_WIDTH, width)
+						height = int(width * ratio)
 				else:
 					ratio = None
 				img.clear()
-				if src.startswith('cid:'):
+				if src and src.startswith('cid:'):
 					if att := self._attachment_by_cid(src[4:]):
 						mime_type = att.ContentType.MediaType
 						img.set('src', f'data:{mime_type};base64,' + \
